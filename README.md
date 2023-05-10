@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [![Build Status](https://travis-ci.org/grpc/grpc-node.svg?branch=master)](https://travis-ci.org/grpc/grpc-node)
 # gRPC on Node.js
 
@@ -48,3 +49,6 @@ Directory: [`packages/grpc-health-check`](https://github.com/grpc/grpc-node/tree
 npm package: [grpc-health-check](https://www.npmjs.com/package/grpc-health-check)
 
 Health check service for gRPC servers.
+=======
+# grpc-node
+>>>>>>> origin/main
