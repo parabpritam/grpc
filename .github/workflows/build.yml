@@ -1,0 +1,36 @@
+name: Build grpc-node for s390x
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2.4.0
+        with:
+          node-version: '14.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install cross-compilation tools
+        uses: actions-rs/cross@v1
+        with:
+          target: s390x-unknown-linux-gnu
+          image: ubuntu:18.04
+
+      - name: Build binary
+        run: npm run build
+
+      - name: Test binary
+        run: npm test
+
+      - name: Publish binary artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: grpc-node-s390x
+          path: ./build/grpc_node_s390x.bin
