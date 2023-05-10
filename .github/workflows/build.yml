@@ -20,7 +20,7 @@ jobs:
       - name: Install cross-compilation tools
         uses: actions-rs/cross@v1
         with:
-          target: s390x-unknown-linux-gnu
+          target: s390x-linux-gnu
           image: ubuntu:18.04
 
       - name: Build binary
