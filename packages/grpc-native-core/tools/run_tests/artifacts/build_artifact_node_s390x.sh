@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright 2016 gRPC authors.
+# Copyright 2017 gRPC authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,29 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm install 12
-
 set -ex
 
-arch_list=( ia32 x64 )
-node_versions=( 4.0.0 5.0.0 6.0.0 7.0.0 8.0.0 9.0.0 10.0.0 11.0.0 12.0.0 13.0.0 14.0.0 )
-
-while true ; do
-  case $1 in
-  --with-alpine)
-    arch_list=( x64 )
-    ;;
-  "")
-    ;;
-  *)
-    echo "Unknown parameter: $1"
-    exit 1
-    ;;
-  esac
-  shift || break
-done
-
-umask 022
+# https://github.com/mapbox/node-pre-gyp/issues/362
+npm install -g node-gyp
 
 cd $(dirname $0)/../../..
 
@@ -45,13 +26,12 @@ mkdir -p "${ARTIFACTS_OUT}"
 
 npm update
 
-for arch in ${arch_list[@]}
-do
-  for version in ${node_versions[@]}
-  do
-    ./node_modules/.bin/node-pre-gyp configure rebuild package --target=$version --target_arch=$arch
-    cp -r build/stage/* "${ARTIFACTS_OUT}"/
-  done
-done
+node_versions=( 4.0.0 5.0.0 6.0.0 7.0.0 8.0.0 9.0.0 10.0.0 11.0.0 12.0.0 13.0.0 )
 
-rm -rf build || true
+for version in ${node_versions[@]}
+do
+  # Cross compile for s390x on x64
+  # Requires debian or ubuntu packages "g++-s390x-linux-gnu".
+  CC=s390x-linux-gnu-gcc CXX=s390x-linux-gnu-g++ LD=s390x-linux-gnu-g++ ./node_modules/.bin/node-pre-gyp configure rebuild package testpackage --target=$version --target_arch=s390x
+  cp -r build/stage/* "${ARTIFACTS_OUT}"/
+done
