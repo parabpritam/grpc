@@ -69,7 +69,14 @@ if [ "$DO_NATIVE" = "true" ] ; then
 fi
 
 if [ "$DO_CROSS" = "true" ] ; then
+<<<<<<< HEAD
   # Cross build for s390x
   $tool_dir/build_artifact_node_s390x.sh
+=======
+  $tool_dir/build_artifact_node_arm.sh
+
+  # Cross build for arm
+  $tool_dir/build_artifact_node_arm.sh
+>>>>>>> e89f10eeb8deeff362cd1642bade9c94c168e7ce
   docker run -e JOBS=8 -e ARTIFACTS_OUT=/var/grpc/artifacts -v $base_dir:/var/grpc alpine_node_artifact /var/grpc/tools/run_tests/artifacts/build_artifact_node.sh --with-alpine
 fi
