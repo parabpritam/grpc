@@ -71,6 +71,7 @@ fi
 if [ "$DO_CROSS" = "true" ] ; then
   $tool_dir/build_artifact_node_arm.sh
 
-  docker build -t alpine_node_artifact $base_dir/tools/docker/alpine_artifact
+  # Cross build for arm
+  $tool_dir/build_artifact_node_arm.sh
   docker run -e JOBS=8 -e ARTIFACTS_OUT=/var/grpc/artifacts -v $base_dir:/var/grpc alpine_node_artifact /var/grpc/tools/run_tests/artifacts/build_artifact_node.sh --with-alpine
 fi
