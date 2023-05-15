@@ -18,6 +18,7 @@
 # ARCH: the processor architecture to build for
 # RUNTIME: node or electron
 # LIBC: the libc to build for, glibc or musl
+#jhjhzj
 
 set -ex
 cd $(dirname $0)/../../../../..
